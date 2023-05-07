@@ -2,6 +2,8 @@
 android client app that integrates with pusher beams to show realtime in-app notifications.
 
 # payload
+sample using curl is located in : https://github.com/syedahmedjamil/pushier/blob/main/extras/payload%20sample%20using%20curl.bat
+
 ```json
 {
     "interests": [
