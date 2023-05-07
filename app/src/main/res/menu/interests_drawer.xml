@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Interests">
+        <menu>
+            <group android:checkableBehavior="single"
+                android:id="@+id/interest">
+            </group>
+        </menu>
+    </item>
+    <group
+        android:id="@+id/group2"
+        android:orderInCategory='6'>
+        <item
+            android:id="@+id/item2"
+            android:icon="@drawable/ic_baseline_link_off_24"
+            android:title="Disconnect" />
+    </group>
+</menu>
