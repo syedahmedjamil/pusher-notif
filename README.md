@@ -1,4 +1,4 @@
-# pushier
+# about
 android client app that integrates with pusher beams to show realtime in-app notifications.
 
 # payload
