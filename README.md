@@ -1,5 +1,5 @@
 # about
-android client app that integrates with pusher beams to show realtime in-app notifications.
+android client app that integrates with pusher beams to show realtime in-app notifications
 
 #  before building the app
 1. configure fcm https://pusher.com/docs/beams/getting-started/android/configure-fcm/?ref=docs-index#open-firebase-console
