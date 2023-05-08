@@ -1,6 +1,11 @@
 # about
 android client app that integrates with pusher beams to show realtime in-app notifications.
 
+#  before building the app
+1. configure fcm https://pusher.com/docs/beams/getting-started/android/configure-fcm/?ref=docs-index#open-firebase-console
+2. make sure when creating app in firebase the **Android package name** is same as you set in **build.grade** `applicationId`
+3. paste your fcm server key in your pusher beams instance settings under "Google FCM Integration" field
+4. download and store your `google-services.json` file in the app folder
 # payload
 sample using curl is located in : https://github.com/syedahmedjamil/pushier/blob/main/extras/payload%20sample%20using%20curl.bat
 
