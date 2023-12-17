@@ -1,0 +1,15 @@
+#!/bin/sh
+
+msg=`head -n 1 $1`
+regex="^^commit-[0-9]+ .{10,}$"
+
+if [[ $msg =~ $regex ]]; then
+	exit 0;
+else
+echo "
+Commit Error: Your commit message is not formatted correctly. 
+Format: commit-<commit number><sapce><10 or more characters>
+Example: commit-1 sample message
+"
+exit 1;
+fi
