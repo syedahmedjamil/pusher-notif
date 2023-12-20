@@ -8,6 +8,8 @@ plugins {
 }
 apply(plugin = "android-reporting")
 
+
+// for unit tests report aggregation
 val testReport = tasks.register("testReport", TestReport::class) {
     outputs.upToDateWhen { false }
     destinationDir = file("$buildDir/reports/unitTests")
