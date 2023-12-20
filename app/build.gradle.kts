@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.JacocoOptions
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -17,8 +15,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testApplicationId = "com.github.syedahmedjamil.pushernotif.test"
-
-//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//      testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner = "io.cucumber.android.runner.CucumberAndroidJUnitRunner"
     }
 
@@ -93,10 +90,6 @@ android {
         androidTestImplementation(libs.cucumber.android)
         androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
-    }
-
-    subprojects {
-        evaluationDependsOn(name)
     }
 
 }
