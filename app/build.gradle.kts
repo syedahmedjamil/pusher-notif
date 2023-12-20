@@ -1,8 +1,11 @@
+import com.android.build.api.dsl.JacocoOptions
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.kotlinKapt)
 }
+
 android {
     namespace = "com.github.syedahmedjamil.pushernotif"
     compileSdk = 34
@@ -38,6 +41,8 @@ android {
             versionNameSuffix = "-DEBUG"
             isDebuggable = true
             buildConfigField("boolean", "DEBUG", "true")
+            //test coverage
+//            enableUnitTestCoverage = true
         }
     }
 
@@ -89,4 +94,9 @@ android {
         androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
     }
+
+    subprojects {
+        evaluationDependsOn(name)
+    }
+
 }
