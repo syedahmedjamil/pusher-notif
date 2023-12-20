@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
     alias(libs.plugins.kotlinKapt) apply false
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
+    java
 }
 apply(plugin = "android-reporting")
 
