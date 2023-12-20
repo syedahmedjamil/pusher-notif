@@ -27,3 +27,7 @@ tasks.withType<Test> {
     }
 }
 
+tasks.withType<Test>().configureEach {
+    maxParallelForks = 3
+}
+
