@@ -1,195 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.github.syedahmedjamil.pushier.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <data>
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/mToolbar"
-            style="@style/Widget.MaterialComponents.Toolbar.Surface"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Instance"
-            app:titleCentered="true" />
+        <import type="com.github.syedahmedjamil.pushernotif.ui.instance.InstanceViewModel" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <import type="android.widget.ArrayAdapter" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        <variable
+            name="adapter"
+            type="ArrayAdapter" />
+
+        <variable
+            name="viewmodel"
+            type="InstanceViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:showIn="@layout/app_bar">
+        tools:context=".ui.instance.InstanceActivity">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/alias"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-            android:hint="Alias"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/instance_toolbar"
+                style="@style/Widget.MaterialComponents.Toolbar.Surface"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="@string/instance_toolbar_text"
+                app:titleCentered="true" />
 
-            android:padding="0dp"
-            android:textAlignment="center"
-            app:boxCornerRadiusTopEnd="20dp"
-            app:boxCornerRadiusTopStart="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        </com.google.android.material.appbar.AppBarLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <ListView
+                android:id="@+id/instance_interests_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="16dp"
+                android:adapter="@{adapter}"
+                app:items="@{viewmodel.interests}"
+                app:layout_constraintBottom_toTopOf="@+id/instance_interest_edit_text"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/instance_interest_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_marginBottom="8dp"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                android:hint="@string/instance_interest_text_input_layout_hint"
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="textFilter"
+                android:minHeight="48dp"
+                app:layout_constraintBottom_toTopOf="@+id/instance_add_interest_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/instance_id"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="Instance ID"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/alias">
-
-            <com.google.android.material.textfield.TextInputEditText
+            <Button
+                android:id="@+id/instance_add_interest_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:onClick="@{() -> viewmodel.addInterest(instanceInterestEditText.getText().toString())}"
+                android:text="@string/instance_add_interest_button_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--        android:text="d558db90-9c23-4da4-9630-0af30e4e6305"-->
-        <Button
-            android:id="@+id/connect"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:onClick="onConnectClick"
-            android:text="Connect"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
 
-<!--        <ImageView-->
-<!--            android:id="@+id/interest_image"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="0dp"-->
-<!--            android:layout_marginStart="16dp"-->
-<!--            android:onClick="onAddIconClick"-->
-<!--            android:scaleType="fitCenter"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/interest_name"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/interest_name"-->
-<!--            app:layout_constraintHorizontal_bias="0.5"-->
-<!--            app:layout_constraintHorizontal_weight="1"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/interest_name"-->
-<!--            app:srcCompat="@drawable/ic_twotone_add_photo_alternate_24" />-->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/interest_name"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-
-            android:layout_marginBottom="8dp"
-            android:hint="Interest Name"
-            app:layout_constraintBottom_toTopOf="@+id/add_interest"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="3"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/add_interest"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:onClick="onAddInterestClick"
-            android:text="Add Interest"
-            app:layout_constraintBottom_toTopOf="@+id/connect"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/interests_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/interest_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/instance_id" />
-
-        <!--    <androidx.recyclerview.widget.RecyclerView-->
-        <!--        android:id="@+id/activityMain_instanceItems_recyclerview"-->
-        <!--        android:layout_width="0dp"-->
-        <!--        android:layout_height="0dp"-->
-        <!--        android:layout_marginStart="32dp"-->
-        <!--        android:layout_marginTop="16dp"-->
-        <!--        android:layout_marginEnd="32dp"-->
-        <!--        android:layout_marginBottom="32dp"-->
-        <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@+id/activityMain_addInstance_button" />-->
-
-        <!--    <Button-->
-        <!--        android:id="@+id/connect_button"-->
-        <!--        android:layout_width="wrap_content"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:onClick="onConnectClick"-->
-        <!--        android:text="Connect"-->
-        <!--        tools:layout_editor_absoluteX="154dp"-->
-        <!--        tools:layout_editor_absoluteY="434dp" />-->
-
-        <!--    <Button-->
-        <!--        android:id="@+id/button"-->
-        <!--        android:layout_width="wrap_content"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:onClick="onDisconnectClick"-->
-        <!--        android:text="Disconnect"-->
-        <!--        tools:layout_editor_absoluteX="141dp"-->
-        <!--        tools:layout_editor_absoluteY="482dp" />-->
-
-
-        <!--    <Button-->
-        <!--        android:id="@+id/button2"-->
-        <!--        android:layout_width="wrap_content"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:text="Use Defaults"-->
-        <!--        android:onClick="onUseDefaultsClick"-->
-        <!--        app:layout_constraintEnd_toEndOf="@+id/alias_editText"-->
-        <!--        app:layout_constraintStart_toStartOf="@+id/alias_editText"-->
-        <!--        app:layout_constraintTop_toBottomOf="@+id/button" />-->
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
