@@ -1,8 +1,17 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.kotlinKapt)
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("com.google.firebase.appdistribution")
 }
+val keystorePropertiesFile = rootProject.file("app/keystore.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
     namespace = "com.github.syedahmedjamil.pushernotif"
@@ -12,35 +21,57 @@ android {
         applicationId = "com.github.syedahmedjamil.pushernotif"
         minSdk = 24
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = project.property("versionCode").toString().toInt()
+        versionName = "1.0.0"
         testApplicationId = "com.github.syedahmedjamil.pushernotif.test"
-//      testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        //testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner = "io.cucumber.android.runner.CucumberAndroidJUnitRunner"
+        //apk file name
+        setProperty("archivesBaseName", "${rootProject.name}-${versionName}-${versionCode}")
+
+    }
+
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
     }
 
     buildTypes {
-        release {
+        debug {
+            val suffix = "debug"
+            resValue("string", "app_name", "Pusher Notif (${suffix})")
             isMinifyEnabled = false
-            setProperty("archivesBaseName", "PusherNotifRelease")
-            resValue("string", "app_name", "Pusher Notif (Release)")
-            applicationIdSuffix = ".release"
-            versionNameSuffix = "-RELEASE"
+            isShrinkResources = false
+            isDebuggable = true
+            applicationIdSuffix = ".${suffix}"
+            versionNameSuffix = "-${suffix}"
+        }
+        release {
+            val suffix = "release"
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            resValue("string", "app_name", "Pusher Notif (${suffix})")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
+            applicationIdSuffix = ".${suffix}"
+            versionNameSuffix = "-${suffix}"
+            signingConfig = signingConfigs.getByName("release")
+
+            firebaseAppDistribution {
+                serviceCredentialsFile = keystoreProperties["serviceCredentialsFile"] as String
+                artifactType = "APK"
+                releaseNotesFile = keystoreProperties["releaseNotesFile"] as String
+                testersFile = keystoreProperties["testersFile"] as String
+            }
         }
-        debug {
-            setProperty("archivesBaseName", "PusherNotifDebug")
-            resValue("string", "app_name", "Pusher Notif (Debug)")
-            applicationIdSuffix = ".debug"
-            versionNameSuffix = "-DEBUG"
-            isDebuggable = true
-            buildConfigField("boolean", "DEBUG", "true")
-            //test coverage
-//            enableUnitTestCoverage = true
-        }
+
     }
 
     compileOptions {

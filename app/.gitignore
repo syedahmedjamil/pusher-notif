@@ -1,2 +1,4 @@
 /build
 .gradle
+*.jks
+main-firebase-app-distribution-admin-key.json
