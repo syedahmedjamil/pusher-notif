@@ -15,7 +15,13 @@ jobs:
         uses: ./.github/actions/setup-jdk-gradle
         with:
           cache-read-only: false
-
+          
+      - name: Get Google Services Json
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          echo $GOOGLE_SERVICES_JSON | base64 --decode > app/google-services.json
+          
       - name: Run Unit Test
         run: ./gradlew test
 
@@ -36,6 +42,12 @@ jobs:
         uses: ./.github/actions/setup-jdk-gradle
         with:
           cache-read-only: false
+
+      - name: Get Google Services Json
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          echo $GOOGLE_SERVICES_JSON | base64 --decode > app/google-services.json
     
       - name: Run Integration Test
         uses: reactivecircus/android-emulator-runner@v2
@@ -64,6 +76,12 @@ jobs:
         with:
           cache-read-only: false
 
+      - name: Get Google Services Json
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          echo $GOOGLE_SERVICES_JSON | base64 --decode > app/google-services.json
+
       - name: Run Acceptance Test
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -90,6 +108,12 @@ jobs:
         uses: ./.github/actions/setup-jdk-gradle
         with:
           cache-read-only: false
+
+      - name: Get Google Services Json
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          echo $GOOGLE_SERVICES_JSON | base64 --decode > app/google-services.json
     
       - name: Assemble Debug Apk
         run: ./gradlew assembleDebug
