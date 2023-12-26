@@ -22,17 +22,23 @@ jobs:
         run: |
           echo $GOOGLE_SERVICES_JSON | base64 --decode > app/google-services.json
 
-      - name: a1
-        run: ls -la
-
-      - name: a2
-        run: less app/google-services.json
-          
-      - name: Run Unit Test
-        run: ./gradlew test
-
       - name: Upload Unit Test Report
         uses: actions/upload-artifact@v3
         with:
-          name: unit-tests-report
-          path: build/reports/unitTests
+          name: file
+          path: app/google-services.json
+
+      # - name: a1
+      #   run: ls -la
+
+      # - name: a2
+      #   run: less app/google-services.json
+          
+      # - name: Run Unit Test
+      #   run: ./gradlew test
+
+      # - name: Upload Unit Test Report
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: unit-tests-report
+      #     path: build/reports/unitTests
