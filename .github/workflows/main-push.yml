@@ -21,19 +21,19 @@ jobs:
         env:
           CERTIFICATE_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: |
-          echo $GOOGLE_SERVICES_JSON | base64 --decode > app/google-services.json
+          echo $CERTIFICATE_BASE64 | base64 --decode > app/google-services.json
 
       - name: Get App Release Signing Key
         env:
           CERTIFICATE_BASE64: ${{ secrets.APP_RELEASE_SIGNING_KEY }}
         run: |
-          echo $APP_RELEASE_SIGNING_KEY | base64 --decode > app/pusher-notif-release-key.jks
+          echo $CERTIFICATE_BASE64 | base64 --decode > app/pusher-notif-release-key.jks
 
       - name: Get Firebase App Distribution Key
         env:
           CERTIFICATE_BASE64: ${{ secrets.FIREBASE_APP_DISTRIBUTION_KEY }}
         run: |
-          echo $FIREBASE_APP_DISTRIBUTION_KEY | base64 --decode > app/main-firebase-app-distribution-admin-key.json
+          echo $CERTIFICATE_BASE64 | base64 --decode > app/main-firebase-app-distribution-admin-key.json
 
       - name: Assemble Signed Release Apk
         run: ./gradlew assembleRelease
