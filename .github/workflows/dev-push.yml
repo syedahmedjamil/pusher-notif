@@ -1,0 +1,125 @@
+name: Dev - Push
+
+on:
+  push:
+    branches: [ "dev" ]
+
+jobs:
+  unit-test:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup JDK And Gradle
+        uses: ./.github/actions/setup-jdk-gradle
+        with:
+          cache-read-only: false
+          
+      - name: Get Google Services Json
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          echo $CERTIFICATE_BASE64 | base64 --decode > app/google-services.json
+          
+      - name: Run Unit Test
+        run: ./gradlew test
+
+      - name: Upload Unit Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-report
+          path: build/reports/unitTests
+
+  integration-test:
+    needs: [unit-test]
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup JDK And Gradle
+        uses: ./.github/actions/setup-jdk-gradle
+        with:
+          cache-read-only: false
+
+      - name: Get Google Services Json
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          echo $CERTIFICATE_BASE64 | base64 --decode > app/google-services.json
+    
+      - name: Run Integration Test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.cucumberUseAndroidJUnitRunner=true mergeAndroidReports
+      
+      - name: Upload Integration Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: integration-test-report
+          path: build/androidTest-results
+
+  acceptance-test:
+    needs: [unit-test]
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup JDK And Gradle
+        uses: ./.github/actions/setup-jdk-gradle
+        with:
+          cache-read-only: false
+
+      - name: Get Google Services Json
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          echo $CERTIFICATE_BASE64 | base64 --decode > app/google-services.json
+
+      - name: Run Acceptance Test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: ./gradlew connectedAndroidTest mergeAndroidReports
+
+      - name: Upload Acceptance Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: acceptance-test-report
+          path: build/androidTest-results
+
+  assemble-debug:
+    needs: [unit-test, integration-test, acceptance-test]
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup JDK And Gradle
+        uses: ./.github/actions/setup-jdk-gradle
+        with:
+          cache-read-only: false
+
+      - name: Get Google Services Json
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          echo $CERTIFICATE_BASE64 | base64 --decode > app/google-services.json
+    
+      - name: Assemble Debug Apk
+        run: ./gradlew assembleDebug
+        
+      - name: Upload Debug Apk
+        uses: actions/upload-artifact@v3
+        with:
+          name: debug-apk
+          path: app/build/outputs/apk/debug/*.apk
