@@ -5,6 +5,7 @@ on:
     paths-ignore:
       - '.github/**'
     branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   upload:
@@ -37,8 +38,28 @@ jobs:
         run: |
           echo $CERTIFICATE_BASE64 | base64 --decode > app/main-firebase-app-distribution-admin-key.json
 
-      - name: Assemble Signed Release Apk
-        run: ./gradlew assembleRelease
+      - name: Upload 1
+        uses: actions/upload-artifact@v3
+        with:
+          name: google-services
+          path: app/google-services.json
 
-      - name: Upload To Firebase App Distribution
-        run: ./gradlew appDistributionUploadRelease
+      - name: Upload 2
+        uses: actions/upload-artifact@v3
+        with:
+          name: pusher-notif-release-key
+          path: app/pusher-notif-release-key.jks
+
+      - name: Upload 3
+        uses: actions/upload-artifact@v3
+        with:
+          name: main-firebase-app-distribution-admin-key
+          path: app/main-firebase-app-distribution-admin-key.json
+
+      # - name: Generate Release Notes From Last Commit 
+
+      # - name: Assemble Signed Release Apk
+      #   run: ./gradlew assembleRelease
+
+      # - name: Upload To Firebase App Distribution
+      #   run: ./gradlew appDistributionUploadRelease
