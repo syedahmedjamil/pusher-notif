@@ -1,0 +1,13 @@
+#!/bin/sh
+
+msg=`head -n 1 $1`
+regex="^.{10,}$"
+
+if [[ $msg =~ $regex ]]; then
+	exit 0;
+else
+echo "
+Commit Error: Your message should be 10 characters or more.
+"
+exit 1;
+fi
