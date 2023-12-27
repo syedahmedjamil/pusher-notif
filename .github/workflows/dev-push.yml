@@ -2,6 +2,8 @@ name: Dev - Push
 
 on:
   push:
+    paths-ignore:
+      - '.github/**'
     branches: [ "dev" ]
 
 jobs:
