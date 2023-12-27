@@ -5,7 +5,9 @@ on:
     paths-ignore:
       - '.github/**'
     branches: [ "main" ]
-
+    
+  workflow_dispatch:
+  
 jobs:
   upload:
     runs-on: macos-latest
@@ -38,7 +40,10 @@ jobs:
           echo $CERTIFICATE_BASE64 | base64 --decode > app/main-firebase-app-distribution-admin-key.json
 
       - name: Assemble Signed Release Apk
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease -PversionCode=${{ github.run_number }}
+
+      - name: Generate Release Notes From Last Commit
+        run: git log -1 > app/release-notes.txt
 
       - name: Upload To Firebase App Distribution
         run: ./gradlew appDistributionUploadRelease
