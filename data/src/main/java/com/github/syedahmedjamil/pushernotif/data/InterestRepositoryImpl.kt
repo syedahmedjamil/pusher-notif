@@ -14,4 +14,8 @@ class InterestRepositoryImpl(private val interestLocalDataSource: InterestDataSo
     override fun getInterests(): Flow<List<String>> {
         return interestLocalDataSource.getInterests()
     }
+
+    override suspend fun removeInterest(interest: String) {
+        interestLocalDataSource.removeInterest(interest)
+    }
 }

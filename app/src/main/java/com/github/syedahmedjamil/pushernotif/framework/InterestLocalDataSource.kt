@@ -13,7 +13,7 @@ class InterestLocalDataSource(private val dataStore: DataStore<Preferences>) : I
 
     override suspend fun addInterest(interest: String) {
         dataStore.edit { preferences ->
-            preferences[stringPreferencesKey(UUID.randomUUID().toString())] = interest
+            preferences[stringPreferencesKey(interest)] = interest
         }
     }
 
@@ -23,5 +23,11 @@ class InterestLocalDataSource(private val dataStore: DataStore<Preferences>) : I
         }
         return interests
 
+    }
+
+    override suspend fun removeInterest(interest: String) {
+        dataStore.edit {
+            it.remove(stringPreferencesKey(interest))
+        }
     }
 }

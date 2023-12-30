@@ -20,4 +20,10 @@ class FakeInterestRepository(val interests: MutableList<String> = mutableListOf(
         emit(interests)
     }
 
+    override suspend fun removeInterest(interest: String) {
+        if (isSystemError) {
+            throw IOException()
+        }
+    }
+
 }

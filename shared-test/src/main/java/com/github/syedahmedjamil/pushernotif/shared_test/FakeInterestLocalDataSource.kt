@@ -8,6 +8,7 @@ class FakeInterestLocalDataSource(private val interests: MutableList<String> = m
     InterestDataSource {
 
     var isAddInterestCalled = false
+    var isRemoveInterestCalled = false
 
     override suspend fun addInterest(interest: String) {
         isAddInterestCalled = true
@@ -15,5 +16,9 @@ class FakeInterestLocalDataSource(private val interests: MutableList<String> = m
 
     override fun getInterests(): Flow<List<String>> = flow {
         emit(interests)
+    }
+
+    override suspend fun removeInterest(interest: String) {
+        isRemoveInterestCalled = true
     }
 }

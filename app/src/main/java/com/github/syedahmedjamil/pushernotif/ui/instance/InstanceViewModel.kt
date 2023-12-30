@@ -9,12 +9,14 @@ import androidx.lifecycle.viewModelScope
 import com.github.syedahmedjamil.pushernotif.core.Result
 import com.github.syedahmedjamil.pushernotif.usecases.AddInterestUseCase
 import com.github.syedahmedjamil.pushernotif.usecases.GetInterestsUseCase
+import com.github.syedahmedjamil.pushernotif.usecases.RemoveInterestUseCase
 import kotlinx.coroutines.launch
 
 @Suppress("UNCHECKED_CAST")
 class InstanceViewModel(
     private val addInterestUseCase: AddInterestUseCase,
-    private val getInterestsUseCase: GetInterestsUseCase
+    private val getInterestsUseCase: GetInterestsUseCase,
+    private val removeInterestUseCase: RemoveInterestUseCase
 ) : ViewModel() {
 
     private val _errorMessage = MutableLiveData<String>()
@@ -31,6 +33,15 @@ class InstanceViewModel(
         }
     }
 
+    fun removeInterest(interest: String) {
+        viewModelScope.launch {
+            val result = removeInterestUseCase(interest)
+            if (result is Result.Error) {
+                displayError(result.exception.message)
+            }
+        }
+    }
+
     private fun displayError(message: String?) {
         message?.let {
             _errorMessage.value = it
@@ -39,10 +50,15 @@ class InstanceViewModel(
 
     class InstanceViewModelFactory(
         private val addInterestUseCase: AddInterestUseCase,
-        private val getInterestsUseCase: GetInterestsUseCase
+        private val getInterestsUseCase: GetInterestsUseCase,
+        private val removeInterestUseCase: RemoveInterestUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return InstanceViewModel(addInterestUseCase, getInterestsUseCase) as T
+            return InstanceViewModel(
+                addInterestUseCase,
+                getInterestsUseCase,
+                removeInterestUseCase
+            ) as T
         }
     }
 }

@@ -20,4 +20,12 @@ class InstanceScreenDsl {
     fun assertMessage(arg0: String) {
         driver.assertMessage(arg0)
     }
+
+    fun removeInterest(arg0: String) {
+        driver.removeInterest(arg0)
+    }
+
+    fun assertInterestNotListed(arg0: String) {
+        driver.assertInterestNotListed(arg0)
+    }
 }

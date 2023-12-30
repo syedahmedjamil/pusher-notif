@@ -118,5 +118,61 @@ class InterestLocalDataSourceTest {
         assertEquals(expected, actual)
     }
 
+    @Test
+    fun should_remove_first_interest_when_interest_exists() = testScope.runTest {
+        // given
+        createTestDataStoreFile("test.preferences_pb")
+        val interest = "interest1"
+        val expected = listOf("interest2", "interest3")
+        // when
+        interestLocalDataSource.removeInterest(interest)
+        val actual = interestLocalDataSource.getInterests().first()
+        // then
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun should_remove_middle_interest_when_interest_exists() = testScope.runTest {
+        // given
+        createTestDataStoreFile("test.preferences_pb")
+        val interest = "interest2"
+        val expected = listOf("interest1", "interest3")
+        // when
+        interestLocalDataSource.removeInterest(interest)
+        val actual = interestLocalDataSource.getInterests().first()
+        // then
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun should_remove_last_interest_when_interest_exists() = testScope.runTest {
+        // given
+        createTestDataStoreFile("test.preferences_pb")
+        val interest = "interest3"
+        val expected = listOf("interest1", "interest2")
+        // when
+        interestLocalDataSource.removeInterest(interest)
+        val actual = interestLocalDataSource.getInterests().first()
+        // then
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun should_remove_all_interest_when_interest_exists() = testScope.runTest {
+        // given
+        createTestDataStoreFile("test.preferences_pb")
+        val interest1 = "interest1"
+        val interest2 = "interest2"
+        val interest3 = "interest3"
+        val expected = listOf<String>()
+        // when
+        interestLocalDataSource.removeInterest(interest1)
+        interestLocalDataSource.removeInterest(interest2)
+        interestLocalDataSource.removeInterest(interest3)
+        val actual = interestLocalDataSource.getInterests().first()
+        // then
+        assertEquals(expected, actual)
+    }
+
 
 }

@@ -30,13 +30,14 @@ class InstanceActivity : AppCompatActivity() {
             this,
             InstanceViewModel.InstanceViewModelFactory(
                 appContainer.addInterestUseCase,
-                appContainer.getInterestsUseCase
+                appContainer.getInterestsUseCase,
+                appContainer.removeInterestUseCase
             )
         )[InstanceViewModel::class.java]
 
         //bindings
         binding.viewmodel = viewModel
-        binding.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1)
+        binding.adapter = InstanceInterestListAdapter(this, R.layout.interest_list_item, viewModel)
 
         //observe
         viewModel.errorMessage.observe(this) {

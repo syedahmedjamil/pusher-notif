@@ -10,8 +10,10 @@ import io.cucumber.java.Before
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
+import io.cucumber.java.PendingException
+import io.cucumber.java.en.And
 
-class AddInterestsSteps {
+class FeatureInstanceSteps {
     private val dsl = CucumberDsl()
 
     private lateinit var activityScenario: ActivityScenario<InstanceActivity>
@@ -47,4 +49,13 @@ class AddInterestsSteps {
         dsl.instance.assertMessage(arg0)
     }
 
+    @When("I remove {string} as an interest")
+    fun iRemoveAsAnInterest(arg0: String) {
+        dsl.instance.removeInterest(arg0)
+    }
+
+    @And("I should not see {string} as an interest")
+    fun iShouldNotSeeAsAnInterest(arg0: String) {
+        dsl.instance.assertInterestNotListed(arg0)
+    }
 }

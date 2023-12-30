@@ -4,7 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.syedahmedjamil.pushernotif.core.Result
 import com.github.syedahmedjamil.pushernotif.shared_test.FakeAddInterestUseCase
 import com.github.syedahmedjamil.pushernotif.shared_test.FakeGetInterestsUseCase
+import com.github.syedahmedjamil.pushernotif.shared_test.FakeRemoveInterestUseCase
 import com.github.syedahmedjamil.pushernotif.ui.instance.InstanceViewModel
+import com.github.syedahmedjamil.pushernotif.usecases.RemoveInterestUseCase
 import com.github.syedahmedjamil.pushernotif.util.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -20,6 +22,7 @@ class InstanceViewModelTest {
     private lateinit var viewModel: InstanceViewModel
     private lateinit var addInterestUseCase: FakeAddInterestUseCase
     private lateinit var getInterestsUseCase: FakeGetInterestsUseCase
+    private lateinit var removeInterestUseCase: FakeRemoveInterestUseCase
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -31,7 +34,9 @@ class InstanceViewModelTest {
     fun setUp() {
         addInterestUseCase = FakeAddInterestUseCase()
         getInterestsUseCase = FakeGetInterestsUseCase()
-        viewModel = InstanceViewModel(addInterestUseCase, getInterestsUseCase)
+        removeInterestUseCase = FakeRemoveInterestUseCase()
+        viewModel =
+            InstanceViewModel(addInterestUseCase, getInterestsUseCase, removeInterestUseCase)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -39,7 +44,7 @@ class InstanceViewModelTest {
     fun `should add interest`() = runTest {
         // given
         addInterestUseCase.isError = false
-        val interest = "interest1"
+        val interest = "interest"
         // when
         viewModel.addInterest(interest)
         advanceUntilIdle()
@@ -83,5 +88,35 @@ class InstanceViewModelTest {
         assertEquals(expected, actual)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `should remove interest`() = runTest {
+        // given
+        removeInterestUseCase.isError = false
+        val interest = "interest"
+        // when
+        viewModel.removeInterest(interest)
+        advanceUntilIdle()
+        val result = removeInterestUseCase.result
+        // then
+        assertTrue(result is Result.Success)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun `should display error when interest is not removed`() = runTest {
+        // given
+        removeInterestUseCase.isError = true
+        val interest = "interest"
+        val expected = "error"
+        // when
+        viewModel.removeInterest(interest)
+        advanceUntilIdle()
+        val result = removeInterestUseCase.result
+        val actual = viewModel.errorMessage.value
+        // then
+        assertTrue(result is Result.Error)
+        assertEquals(expected, actual)
+    }
 
 }

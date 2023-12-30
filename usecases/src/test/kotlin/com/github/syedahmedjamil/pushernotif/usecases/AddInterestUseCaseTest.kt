@@ -15,7 +15,7 @@ import org.junit.Before
 import org.junit.Test
 
 class AddInterestUseCaseTest {
-    private lateinit var useCase: AddInterestUseCaseImpl
+    private lateinit var useCase: AddInterestUseCase
     private lateinit var repository: FakeInterestRepository
     private val testDispatcher = StandardTestDispatcher()
     private val scope = TestScope(testDispatcher)

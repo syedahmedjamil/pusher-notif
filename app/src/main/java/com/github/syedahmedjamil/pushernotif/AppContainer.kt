@@ -9,6 +9,7 @@ import com.github.syedahmedjamil.pushernotif.data.InterestRepositoryImpl
 import com.github.syedahmedjamil.pushernotif.framework.InterestLocalDataSource
 import com.github.syedahmedjamil.pushernotif.usecases.AddInterestUseCaseImpl
 import com.github.syedahmedjamil.pushernotif.usecases.GetInterestsUseCaseImpl
+import com.github.syedahmedjamil.pushernotif.usecases.RemoveInterestUseCaseImpl
 import kotlinx.coroutines.runBlocking
 
 private const val INTEREST_DATASTORE_NAME = "interest"
@@ -26,6 +27,7 @@ class AppContainer(context: Context) {
 
     val addInterestUseCase by lazy { AddInterestUseCaseImpl(interestRepository) }
     val getInterestsUseCase by lazy { GetInterestsUseCaseImpl(interestRepository) }
+    val removeInterestUseCase by lazy { RemoveInterestUseCaseImpl(interestRepository) }
 
     // For testing
     @VisibleForTesting
