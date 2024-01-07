@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">Pusher Notif</string>
+    <!--instance-->
     <string name="instance_toolbar_text">Instance</string>
+    <string name="instance_subscribe_button_text">Subscribe</string>
     <string name="instance_add_interest_button_text">Add Interest</string>
-    <string name="instance_interest_text_input_layout_hint">Interest Name</string>
+    <string name="instance_interest_text_input_hint">Interest Name</string>
+    <string name="instance_id_text_input_hint">Instance ID</string>
+
+    <!--notification-->
+    <string name="notification_toolbar_text">Notifications</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
