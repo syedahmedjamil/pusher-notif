@@ -3,3 +3,4 @@
 *.jks
 *.json
 misc
+.aiexclude

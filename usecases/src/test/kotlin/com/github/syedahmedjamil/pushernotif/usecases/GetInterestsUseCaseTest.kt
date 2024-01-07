@@ -1,6 +1,6 @@
 package com.github.syedahmedjamil.pushernotif.usecases
 
-import com.github.syedahmedjamil.pushernotif.shared_test.FakeInterestRepository
+import com.github.syedahmedjamil.pushernotif.shared_test.fakes.repository.FakeInterestRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

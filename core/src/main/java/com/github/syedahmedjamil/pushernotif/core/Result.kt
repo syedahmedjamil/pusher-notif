@@ -9,5 +9,8 @@ sealed class Result<out T> {
 abstract class BusinessException(message: String?) : Exception(message)
 class EmptyInterestException(message: String? = null) : BusinessException(message)
 class DuplicateInterestException(message: String? = null) : BusinessException(message)
+class EmptyInstanceIdException(message: String? = null) : BusinessException(message)
+class NoInterestAddedException(message: String? = null) : BusinessException(message)
+class NoNetworkException(message: String? = null) : BusinessException(message)
 
 class NonBusinessException(message: String? = null) : Exception(message)

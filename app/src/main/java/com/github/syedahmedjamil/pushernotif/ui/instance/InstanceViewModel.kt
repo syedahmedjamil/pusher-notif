@@ -10,17 +10,24 @@ import com.github.syedahmedjamil.pushernotif.core.Result
 import com.github.syedahmedjamil.pushernotif.usecases.AddInterestUseCase
 import com.github.syedahmedjamil.pushernotif.usecases.GetInterestsUseCase
 import com.github.syedahmedjamil.pushernotif.usecases.RemoveInterestUseCase
+import com.github.syedahmedjamil.pushernotif.usecases.SubscribeUseCase
+import com.github.syedahmedjamil.pushernotif.util.Event
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @Suppress("UNCHECKED_CAST")
 class InstanceViewModel(
     private val addInterestUseCase: AddInterestUseCase,
     private val getInterestsUseCase: GetInterestsUseCase,
-    private val removeInterestUseCase: RemoveInterestUseCase
+    private val removeInterestUseCase: RemoveInterestUseCase,
+    private val subscribeUseCase: SubscribeUseCase
 ) : ViewModel() {
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
+
+    private val _subscribeEvent = MutableLiveData<Event<Unit>>()
+    val subscribeEvent: LiveData<Event<Unit>> = _subscribeEvent
 
     val interests = getInterestsUseCase().asLiveData()
 
@@ -42,6 +49,19 @@ class InstanceViewModel(
         }
     }
 
+    fun subscribe(instanceId: String) {
+        viewModelScope.launch {
+            val interests = interests.value ?: emptyList()
+            val result = subscribeUseCase(instanceId, interests)
+            if (result is Result.Error) {
+                displayError(result.exception.message)
+            }
+            if (result is Result.Success) {
+                _subscribeEvent.value = Event(Unit)
+            }
+        }
+    }
+
     private fun displayError(message: String?) {
         message?.let {
             _errorMessage.value = it
@@ -51,13 +71,15 @@ class InstanceViewModel(
     class InstanceViewModelFactory(
         private val addInterestUseCase: AddInterestUseCase,
         private val getInterestsUseCase: GetInterestsUseCase,
-        private val removeInterestUseCase: RemoveInterestUseCase
+        private val removeInterestUseCase: RemoveInterestUseCase,
+        private val subscribeUseCase: SubscribeUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return InstanceViewModel(
                 addInterestUseCase,
                 getInterestsUseCase,
-                removeInterestUseCase
+                removeInterestUseCase,
+                subscribeUseCase
             ) as T
         }
     }

@@ -1,7 +1,7 @@
 package com.github.syedahmedjamil.pushernotif.data
 
 import com.github.syedahmedjamil.pushernotif.domain.InterestRepository
-import com.github.syedahmedjamil.pushernotif.shared_test.FakeInterestLocalDataSource
+import com.github.syedahmedjamil.pushernotif.shared_test.fakes.source.FakeInterestLocalDataSource
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

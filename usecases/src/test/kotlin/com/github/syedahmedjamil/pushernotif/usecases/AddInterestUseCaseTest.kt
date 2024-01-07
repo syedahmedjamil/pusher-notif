@@ -5,7 +5,7 @@ import com.github.syedahmedjamil.pushernotif.core.DuplicateInterestException
 import com.github.syedahmedjamil.pushernotif.core.EmptyInterestException
 import com.github.syedahmedjamil.pushernotif.core.NonBusinessException
 import com.github.syedahmedjamil.pushernotif.core.Result
-import com.github.syedahmedjamil.pushernotif.shared_test.FakeInterestRepository
+import com.github.syedahmedjamil.pushernotif.shared_test.fakes.repository.FakeInterestRepository
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
