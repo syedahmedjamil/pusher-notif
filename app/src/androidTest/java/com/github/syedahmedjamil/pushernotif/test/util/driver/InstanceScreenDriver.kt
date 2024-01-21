@@ -9,29 +9,19 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.Until
 import com.github.syedahmedjamil.pushernotif.R
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.equalTo
-import org.hamcrest.Matchers.hasEntry
-import org.hamcrest.Matchers.hasToString
-import org.hamcrest.Matchers.hasValue
 import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.not
-import org.hamcrest.Matchers.startsWith
 
 // Instead of Thread.sleep() use UiDevice.wait() and IdlingResource for navigation and databinding
 
 class InstanceScreenDriver {
 
     fun assertScreenTitle(arg0: String) {
-        Thread.sleep(3000)
-        if(arg0 == "Instance")
-            onView(withId(R.id.instance_toolbar)).check(matches(hasDescendant(withText(arg0))))
-        if(arg0 == "Notifications")
-            onView(withId(R.id.notification_toolbar)).check(matches(hasDescendant(withText(arg0))))
+        onView(withId(R.id.toolbar_title)).check(matches(withText(arg0)))
     }
 
     fun addInterest(arg0: String) {
@@ -68,7 +58,7 @@ class InstanceScreenDriver {
     }
 
     fun setInternetConnection(arg0: String) {
-        val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        val device = InstrumentationRegistry.getInstrumentation().uiAutomation
         if (arg0 == "on")
             device.executeShellCommand("cmd connectivity airplane-mode disable")
         if (arg0 == "off")

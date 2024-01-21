@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_interests"
+        android:title="Interests">
+        <menu>
+            <item
+                android:title="reddit" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/labels_item"
+        android:title="Options">
+        <menu>
+            <item
+                android:id="@+id/menu_ubsubscribe"
+                android:icon="@drawable/baseline_unsubscribe_24"
+                android:title="Unsubscribe" />
+        </menu>
+    </item>
+
+</menu>

@@ -23,6 +23,6 @@ rootProject.name = "PusherNotif"
 include(":app")
 include(":shared-test")
 include(":domain")
-include(":usecases")
+include(":usecase")
 include(":data")
 include(":core")

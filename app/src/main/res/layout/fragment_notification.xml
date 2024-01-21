@@ -6,59 +6,76 @@
 
     <data>
 
-        <import type="com.github.syedahmedjamil.pushernotif.ui.instance.InstanceViewModel" />
+        <import type="com.github.syedahmedjamil.pushernotif.ui.notification.NotificationViewModel" />
 
         <import type="android.widget.ArrayAdapter" />
+
+        <variable
+            name="instanceId"
+            type="String" />
 
         <variable
             name="adapter"
             type="ArrayAdapter" />
 
+        <variable
+            name="viewmodel"
+            type="NotificationViewModel" />
+
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/notification_coordinator_layout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+<!--        <com.google.android.material.chip.Chip-->
+<!--            android:id="@+id/toolbar_alis"-->
+<!--            style="@style/Widget.Material3.Chip.Assist.Elevated"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:text="Pusher"-->
+<!--            app:chipCornerRadius="20dp" />-->
 
-        <com.google.android.material.appbar.AppBarLayout
+        <com.google.android.material.chip.Chip
+            android:id="@+id/toolbar_subtitle"
+            style="@style/Widget.Material3.Chip.Assist.Elevated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{instanceId}"
+            app:chipCornerRadius="20dp" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:tabMode="scrollable">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/notification_toolbar"
-                style="@style/Widget.MaterialComponents.Toolbar.Surface"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:title="@string/notification_toolbar_text"
-                app:titleCentered="true" />
+        </com.google.android.material.tabs.TabLayout>
 
-        </com.google.android.material.appbar.AppBarLayout>
+        <ListView
+            android:id="@+id/notification_list_view"
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/notification_constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="16dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="16dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:adapter="@{adapter}"
+            app:items="@{viewmodel.notifications}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/notification_list_item"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="16dp"
+            android:padding="8dp"
+            />
 
-            <ListView
-                android:id="@+id/notification_list_view"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:adapter="@{adapter}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+    </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
+
+
 

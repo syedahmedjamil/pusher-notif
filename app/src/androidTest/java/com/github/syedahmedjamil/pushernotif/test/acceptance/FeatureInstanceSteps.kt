@@ -1,32 +1,64 @@
 package com.github.syedahmedjamil.pushernotif.test.acceptance
 
-import androidx.test.core.app.ActivityScenario
+import android.content.Intent
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.test.core.app.ApplicationProvider
-import com.github.syedahmedjamil.pushernotif.MyApplication
+import androidx.test.espresso.IdlingRegistry
+import com.github.syedahmedjamil.pushernotif.test.ActivityScenarioHolder
 import com.github.syedahmedjamil.pushernotif.test.dsl.CucumberDsl
+import com.github.syedahmedjamil.pushernotif.test.util.DataBindingIdlingResource
+import com.github.syedahmedjamil.pushernotif.test.util.monitorActivity
 import com.github.syedahmedjamil.pushernotif.ui.MainActivity
+import com.github.syedahmedjamil.pushernotif.util.EspressoIdlingResource
+import dagger.hilt.android.testing.HiltAndroidTest
 import io.cucumber.java.After
 import io.cucumber.java.Before
+import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
-import io.cucumber.java.en.And
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-class FeatureInstanceSteps {
+@HiltAndroidTest
+class FeatureInstanceSteps(
+    val scenarioHolder: ActivityScenarioHolder
+) {
+
     private val dsl = CucumberDsl()
 
-    private lateinit var activityScenario: ActivityScenario<MainActivity>
+    @Inject
+    lateinit var dataStore: DataStore<Preferences>
+
+
+    private val dataBindingIdlingResource = DataBindingIdlingResource()
 
     @Before
-    fun setup() {
-        activityScenario = ActivityScenario.launch(MainActivity::class.java)
+    fun setUp() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+        IdlingRegistry.getInstance().register(dataBindingIdlingResource)
+        scenarioHolder.launch(
+            Intent(
+                ApplicationProvider.getApplicationContext(),
+                MainActivity::class.java
+            )
+        )
+        dataBindingIdlingResource.monitorActivity(scenarioHolder.getScenario())
     }
 
     @After
     fun tearDown() {
-        activityScenario.close()
-        (ApplicationProvider.getApplicationContext() as MyApplication).appContainer.reset()
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
+        IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
+        runBlocking {
+            dataStore.edit {
+                it.clear()
+            }
+        }
     }
+
 
     @Given("I am on the {string} screen")
     fun iAmOnThePage(arg0: String) {

@@ -25,7 +25,7 @@ import org.junit.Before
 import org.junit.Test
 import java.io.File
 
-private const val TEST_DATASTORE_NAME: String = "test"
+private const val TEST_DATASTORE_NAME: String = "test_interest"
 
 @MediumTest
 class InterestLocalDataSourceTest {
@@ -43,7 +43,7 @@ class InterestLocalDataSourceTest {
     private fun createTestDataStoreFile(fileName: String): File {
         val context = InstrumentationRegistry.getInstrumentation().context
         val testDataStoreFile = context.assets.open(fileName)
-        val file = File(testContext.filesDir, "datastore/test.preferences_pb")
+        val file = File(testContext.filesDir, "datastore/test_interest.preferences_pb")
         file.parentFile?.mkdir()
         file.createNewFile()
         file.outputStream().use {
@@ -84,7 +84,7 @@ class InterestLocalDataSourceTest {
     @Test
     fun should_get_interests_when_interests_exists() = testScope.runTest {
         // given
-        createTestDataStoreFile("test.preferences_pb")
+        createTestDataStoreFile("test_interest.preferences_pb")
         val expected = listOf("interest1", "interest2", "interest3")
         // when
         val actual = interestLocalDataSource.getInterests().first()
@@ -108,7 +108,7 @@ class InterestLocalDataSourceTest {
     @Test
     fun should_add_interest_when_interest_exists() = testScope.runTest {
         // given
-        createTestDataStoreFile("test.preferences_pb")
+        createTestDataStoreFile("test_interest.preferences_pb")
         val interest = "interest4"
         val expected = listOf("interest1", "interest2", "interest3", "interest4")
         // when
@@ -121,7 +121,7 @@ class InterestLocalDataSourceTest {
     @Test
     fun should_remove_first_interest_when_interest_exists() = testScope.runTest {
         // given
-        createTestDataStoreFile("test.preferences_pb")
+        createTestDataStoreFile("test_interest.preferences_pb")
         val interest = "interest1"
         val expected = listOf("interest2", "interest3")
         // when
@@ -134,7 +134,7 @@ class InterestLocalDataSourceTest {
     @Test
     fun should_remove_middle_interest_when_interest_exists() = testScope.runTest {
         // given
-        createTestDataStoreFile("test.preferences_pb")
+        createTestDataStoreFile("test_interest.preferences_pb")
         val interest = "interest2"
         val expected = listOf("interest1", "interest3")
         // when
@@ -147,7 +147,7 @@ class InterestLocalDataSourceTest {
     @Test
     fun should_remove_last_interest_when_interest_exists() = testScope.runTest {
         // given
-        createTestDataStoreFile("test.preferences_pb")
+        createTestDataStoreFile("test_interest.preferences_pb")
         val interest = "interest3"
         val expected = listOf("interest1", "interest2")
         // when
@@ -160,7 +160,7 @@ class InterestLocalDataSourceTest {
     @Test
     fun should_remove_all_interest_when_interest_exists() = testScope.runTest {
         // given
-        createTestDataStoreFile("test.preferences_pb")
+        createTestDataStoreFile("test_interest.preferences_pb")
         val interest1 = "interest1"
         val interest2 = "interest2"
         val interest3 = "interest3"

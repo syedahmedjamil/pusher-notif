@@ -1,8 +1,8 @@
 package com.github.syedahmedjamil.pushernotif
 
-import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class MyApplication : Application() {
-    val appContainer = AppContainer(this)
+@HiltAndroidApp
+class MyApplication : BaseApplication() {
 
 }

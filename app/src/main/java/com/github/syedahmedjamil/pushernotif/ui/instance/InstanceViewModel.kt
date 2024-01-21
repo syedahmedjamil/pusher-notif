@@ -12,11 +12,14 @@ import com.github.syedahmedjamil.pushernotif.usecases.GetInterestsUseCase
 import com.github.syedahmedjamil.pushernotif.usecases.RemoveInterestUseCase
 import com.github.syedahmedjamil.pushernotif.usecases.SubscribeUseCase
 import com.github.syedahmedjamil.pushernotif.util.Event
-import kotlinx.coroutines.flow.first
+import com.github.syedahmedjamil.pushernotif.util.wrapEspressoIdlingResource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
-class InstanceViewModel(
+@HiltViewModel
+class InstanceViewModel @Inject constructor(
     private val addInterestUseCase: AddInterestUseCase,
     private val getInterestsUseCase: GetInterestsUseCase,
     private val removeInterestUseCase: RemoveInterestUseCase,
@@ -51,13 +54,15 @@ class InstanceViewModel(
 
     fun subscribe(instanceId: String) {
         viewModelScope.launch {
-            val interests = interests.value ?: emptyList()
-            val result = subscribeUseCase(instanceId, interests)
-            if (result is Result.Error) {
-                displayError(result.exception.message)
-            }
-            if (result is Result.Success) {
-                _subscribeEvent.value = Event(Unit)
+            wrapEspressoIdlingResource {
+                val interests = interests.value ?: emptyList()
+                val result = subscribeUseCase(instanceId, interests)
+                if (result is Result.Error) {
+                    displayError(result.exception.message)
+                }
+                if (result is Result.Success) {
+                    _subscribeEvent.value = Event(Unit)
+                }
             }
         }
     }

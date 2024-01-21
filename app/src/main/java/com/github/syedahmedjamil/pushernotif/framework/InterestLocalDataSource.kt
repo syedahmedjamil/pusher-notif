@@ -7,9 +7,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.github.syedahmedjamil.pushernotif.domain.InterestDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.util.UUID
+import javax.inject.Inject
 
-class InterestLocalDataSource(private val dataStore: DataStore<Preferences>) : InterestDataSource {
+class InterestLocalDataSource @Inject constructor(private val dataStore: DataStore<Preferences>) : InterestDataSource {
 
     override suspend fun addInterest(interest: String) {
         dataStore.edit { preferences ->

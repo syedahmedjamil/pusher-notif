@@ -2,7 +2,6 @@ package com.github.syedahmedjamil.pushernotif
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.github.syedahmedjamil.pushernotif.core.Result
-import com.github.syedahmedjamil.pushernotif.shared_test.fakes.service.FakeSubscribeService
 import com.github.syedahmedjamil.pushernotif.shared_test.fakes.usecase.FakeAddInterestUseCase
 import com.github.syedahmedjamil.pushernotif.shared_test.fakes.usecase.FakeGetInterestsUseCase
 import com.github.syedahmedjamil.pushernotif.shared_test.fakes.usecase.FakeRemoveInterestUseCase
@@ -22,6 +21,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class InstanceViewModelTest {
     private lateinit var viewModel: InstanceViewModel
     private lateinit var addInterestUseCase: AddInterestUseCase
@@ -52,7 +52,6 @@ class InstanceViewModelTest {
 
     // Business Tests (For Users)
     // These tests contribute to the features of the app.
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `should add interest`() = runTest {
         // given
@@ -67,7 +66,6 @@ class InstanceViewModelTest {
         assertTrue(result is Result.Success)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `should get interests`() = runTest {
         // given
@@ -86,7 +84,6 @@ class InstanceViewModelTest {
         assertEquals(2, actual.size)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `should display error when interest is not added`() = runTest {
         // given
@@ -104,7 +101,6 @@ class InstanceViewModelTest {
         assertEquals(expected, actual)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `should remove interest`() = runTest {
         // given
@@ -119,7 +115,6 @@ class InstanceViewModelTest {
         assertTrue(result is Result.Success)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `should display error when interest is not removed`() = runTest {
         // given
@@ -137,7 +132,6 @@ class InstanceViewModelTest {
         assertEquals(expected, actual)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `should display error when unable to subscribe`() = runTest {
         // given
@@ -157,7 +151,7 @@ class InstanceViewModelTest {
         assertEquals(expected, actual)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+
     @Test
     fun `should navigate to notifications screen when subscribed`() = runTest {
         // given
