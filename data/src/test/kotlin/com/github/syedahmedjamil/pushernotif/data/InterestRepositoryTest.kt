@@ -1,5 +1,6 @@
 package com.github.syedahmedjamil.pushernotif.data
 
+import com.github.syedahmedjamil.pushernotif.domain.InterestDataSource
 import com.github.syedahmedjamil.pushernotif.domain.InterestRepository
 import com.github.syedahmedjamil.pushernotif.shared_test.fakes.source.FakeInterestLocalDataSource
 import kotlinx.coroutines.flow.first
@@ -11,15 +12,15 @@ import org.junit.Test
 
 class InterestRepositoryTest {
 
-    private lateinit var interestRepository: InterestRepository
-    private lateinit var fakeInterestLocalDataSource: FakeInterestLocalDataSource
+    private lateinit var repository: InterestRepository
+    private lateinit var dataSource: InterestDataSource
 
     @Before
     fun setUp() {
-        fakeInterestLocalDataSource = FakeInterestLocalDataSource(
+        dataSource = FakeInterestLocalDataSource(
             mutableListOf("interest1", "interest2", "interest3")
         )
-        interestRepository = InterestRepositoryImpl(fakeInterestLocalDataSource)
+        repository = InterestRepositoryImpl(dataSource)
     }
 
     @Test
@@ -27,9 +28,9 @@ class InterestRepositoryTest {
         // given
         val interest = "interest"
         // when
-        interestRepository.addInterest(interest)
+        repository.addInterest(interest)
         // then
-        assertTrue(fakeInterestLocalDataSource.isAddInterestCalled)
+        assertTrue((dataSource as FakeInterestLocalDataSource).isAddInterestCalled)
     }
 
     @Test
@@ -37,7 +38,7 @@ class InterestRepositoryTest {
         // given
         val expected = listOf("interest1", "interest2", "interest3")
         // when
-        val actual = interestRepository.getInterests().first()
+        val actual = repository.getInterests().first()
         // then
         assertEquals(expected, actual)
     }
@@ -47,8 +48,8 @@ class InterestRepositoryTest {
         // given
         val interest = "interest"
         // when
-        interestRepository.removeInterest(interest)
+        repository.removeInterest(interest)
         // then
-        assertTrue(fakeInterestLocalDataSource.isRemoveInterestCalled)
+        assertTrue((dataSource as FakeInterestLocalDataSource).isRemoveInterestCalled)
     }
 }

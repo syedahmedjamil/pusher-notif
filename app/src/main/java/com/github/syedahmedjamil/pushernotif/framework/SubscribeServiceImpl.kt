@@ -5,8 +5,9 @@ import android.net.ConnectivityManager
 import androidx.core.content.ContextCompat.getSystemService
 import com.github.syedahmedjamil.pushernotif.domain.SubscribeService
 import com.pusher.pushnotifications.PushNotifications
+import javax.inject.Inject
 
-class SubscribeServiceImpl(private val context: Context) : SubscribeService {
+class SubscribeServiceImpl @Inject constructor(private val context: Context) : SubscribeService {
     override suspend fun subscribe(instanceId: String, interests: List<String>) {
         PushNotifications.start(context, instanceId)
         PushNotifications.setDeviceInterests(interests.toSet())

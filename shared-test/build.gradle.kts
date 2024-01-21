@@ -1,4 +1,4 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+// TODO: Remove once KTIJ-19369 is fixed
 plugins {
     id("java-library")
     alias(libs.plugins.org.jetbrains.kotlin.jvm)
@@ -7,7 +7,7 @@ plugins {
 dependencies {
     //local
     implementation(project(":domain"))
-    implementation(project(":usecases"))
+    implementation(project(":usecase"))
     implementation(project(":core"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 }

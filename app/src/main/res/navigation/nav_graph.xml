@@ -6,7 +6,6 @@
     <fragment
         android:id="@+id/instance_dest"
         android:name="com.github.syedahmedjamil.pushernotif.ui.instance.InstanceFragment"
-        android:label="instance_dest"
         tools:layout="@layout/fragment_instance">
         <action
             android:id="@+id/action_instance_dest_to_notifications_dest"
@@ -15,7 +14,6 @@
     <fragment
         android:id="@+id/notification_dest"
         android:name="com.github.syedahmedjamil.pushernotif.ui.notification.NotificationFragment"
-        android:label="notifications_dest"
         tools:layout="@layout/fragment_notification">
 
     </fragment>

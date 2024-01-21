@@ -3,8 +3,9 @@ package com.github.syedahmedjamil.pushernotif.data
 import com.github.syedahmedjamil.pushernotif.domain.InterestDataSource
 import com.github.syedahmedjamil.pushernotif.domain.InterestRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class InterestRepositoryImpl(private val interestLocalDataSource: InterestDataSource) :
+class InterestRepositoryImpl @Inject constructor(private val interestLocalDataSource: InterestDataSource) :
     InterestRepository {
 
     override suspend fun addInterest(interest: String) {
