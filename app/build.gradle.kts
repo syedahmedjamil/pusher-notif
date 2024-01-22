@@ -62,7 +62,6 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             isDebuggable = false
-            applicationIdSuffix = ".${suffix}"
             versionNameSuffix = "-${suffix}"
             signingConfig = signingConfigs.getByName("release")
 

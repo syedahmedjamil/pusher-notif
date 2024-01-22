@@ -15,6 +15,5 @@
         android:id="@+id/notification_dest"
         android:name="com.github.syedahmedjamil.pushernotif.ui.notification.NotificationFragment"
         tools:layout="@layout/fragment_notification">
-
     </fragment>
 </navigation>
