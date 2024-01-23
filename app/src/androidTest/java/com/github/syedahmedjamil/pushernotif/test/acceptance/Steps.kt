@@ -23,7 +23,7 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltAndroidTest
-class FeatureInstanceSteps(
+class Steps(
     val scenarioHolder: ActivityScenarioHolder
 ) {
 
@@ -105,4 +105,5 @@ class FeatureInstanceSteps(
     fun internetConnectionIsTurned(arg0: String) {
         dsl.instance.setInternetConnection(arg0)
     }
+
 }

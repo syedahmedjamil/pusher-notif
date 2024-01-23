@@ -3,8 +3,9 @@ package com.github.syedahmedjamil.pushernotif.test.integration
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import com.github.syedahmedjamil.pushernotif.AppContainer
-import com.github.syedahmedjamil.pushernotif.domain.ImageLoader
+import com.github.syedahmedjamil.pushernotif.ImageLoader
 import com.github.syedahmedjamil.pushernotif.usecases.AddNotificationUseCase
+import com.github.syedahmedjamil.pushernotif.usecases.DeleteNotificationsUseCase
 import com.github.syedahmedjamil.pushernotif.usecases.GetNotificationsUseCase
 import org.junit.Assert
 import org.junit.Test
@@ -28,6 +29,12 @@ class AppContainerTest {
     @Test
     fun test_appContainer_has_a_getNotificationsUseCase() {
         val dep: GetNotificationsUseCase = appContainer.getNotificationsUseCase
+        Assert.assertNotNull(dep)
+    }
+
+    @Test
+    fun test_appContainer_has_a_deleteNotificationsUseCase() {
+        val dep: DeleteNotificationsUseCase = appContainer.deleteNotificationsUseCase
         Assert.assertNotNull(dep)
     }
 

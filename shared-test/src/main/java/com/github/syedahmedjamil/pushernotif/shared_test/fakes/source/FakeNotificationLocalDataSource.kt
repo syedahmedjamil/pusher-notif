@@ -9,6 +9,7 @@ class FakeNotificationLocalDataSource(private val notifications: List<Notificati
     NotificationDataSource {
 
     var isAddNotificationCalled = false
+    var isDeleteNotificationsCalled = false
 
     override fun getNotifications(interest: String): Flow<List<NotificationEntity>> = flow {
         emit(notifications.filter {
@@ -18,6 +19,10 @@ class FakeNotificationLocalDataSource(private val notifications: List<Notificati
 
     override suspend fun addNotification(notification: NotificationEntity) {
         isAddNotificationCalled = true
+    }
+
+    override suspend fun deleteNotifications() {
+        isDeleteNotificationsCalled = true
     }
 
 }

@@ -23,4 +23,10 @@ class FakeNotificationRepository(val notifications: List<NotificationEntity> = l
         }
     }
 
+    override suspend fun deleteNotifications() {
+        if (isSystemError) {
+            throw IOException()
+        }
+    }
+
 }

@@ -5,11 +5,12 @@ import androidx.annotation.VisibleForTesting
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.github.syedahmedjamil.pushernotif.data.NotificationRepositoryImpl
-import com.github.syedahmedjamil.pushernotif.domain.ImageLoader
 import com.github.syedahmedjamil.pushernotif.framework.NotificationLocalDataSource
 import com.github.syedahmedjamil.pushernotif.framework.PicassoImageLoader
 import com.github.syedahmedjamil.pushernotif.usecases.AddNotificationUseCase
 import com.github.syedahmedjamil.pushernotif.usecases.AddNotificationUseCaseImpl
+import com.github.syedahmedjamil.pushernotif.usecases.DeleteNotificationsUseCase
+import com.github.syedahmedjamil.pushernotif.usecases.DeleteNotificationsUseCaseImpl
 import com.github.syedahmedjamil.pushernotif.usecases.GetNotificationsUseCase
 import com.github.syedahmedjamil.pushernotif.usecases.GetNotificationsUseCaseImpl
 import kotlinx.coroutines.runBlocking
@@ -40,6 +41,9 @@ class AppContainer(context: Context) {
 
     val getNotificationsUseCase: GetNotificationsUseCase =
         GetNotificationsUseCaseImpl(notificationRepository)
+
+    val deleteNotificationsUseCase: DeleteNotificationsUseCase =
+        DeleteNotificationsUseCaseImpl(notificationRepository)
 
     // These are var because they are used in tests to replace with fakes
     var addNotificationUseCase: AddNotificationUseCase =

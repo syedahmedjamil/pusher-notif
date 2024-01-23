@@ -21,7 +21,6 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -73,7 +72,7 @@ class NotificationLocalDataSourceTest {
         // when
         val actual = notificationDataSource.getNotifications("test").first()
         // then
-        Assert.assertEquals(expected, actual)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -102,6 +101,37 @@ class NotificationLocalDataSourceTest {
         // then
         assertEquals(expected1, actual1)
         assertEquals(expected2, actual2)
+    }
+
+    @Test
+    fun should_delete_notifications_when_exists() = testScope.runTest {
+        // given
+        createTestDataStoreFile("test_notification.preferences_pb")
+        val interest1 = "test1"
+        val interest2 = "test2"
+        val expected = emptyList<NotificationEntity>()
+        // when
+        notificationDataSource.deleteNotifications()
+        val actual1 = notificationDataSource.getNotifications(interest1).first()
+        val actual2 = notificationDataSource.getNotifications(interest2).first()
+        // then
+        assertEquals(expected, actual1)
+        assertEquals(expected, actual2)
+    }
+
+    @Test
+    fun should_delete_notifications_when_not_exists() = testScope.runTest {
+        // given
+        val interest1 = "test1"
+        val interest2 = "test2"
+        val expected = emptyList<NotificationEntity>()
+        // when
+        notificationDataSource.deleteNotifications()
+        val actual1 = notificationDataSource.getNotifications(interest1).first()
+        val actual2 = notificationDataSource.getNotifications(interest2).first()
+        // then
+        assertEquals(expected, actual1)
+        assertEquals(expected, actual2)
     }
 
 }

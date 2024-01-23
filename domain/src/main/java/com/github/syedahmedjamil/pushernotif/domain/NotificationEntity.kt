@@ -1,5 +1,8 @@
 package com.github.syedahmedjamil.pushernotif.domain
 
+import androidx.annotation.Keep
+
+@Keep
 data class NotificationEntity(
     val title: String,
     val body: String,

@@ -34,4 +34,8 @@ class NotificationLocalDataSource @Inject constructor(private val dataStore: Dat
             preferences[stringPreferencesKey(UUID.randomUUID().toString())] = notificationJson
         }
     }
+
+    override suspend fun deleteNotifications() {
+        dataStore.edit { it.clear() }
+    }
 }

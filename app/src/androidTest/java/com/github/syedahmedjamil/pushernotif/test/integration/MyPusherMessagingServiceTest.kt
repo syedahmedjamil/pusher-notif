@@ -6,11 +6,10 @@ import android.content.ContextWrapper
 import androidx.test.core.app.ApplicationProvider
 import com.github.syedahmedjamil.pushernotif.AppContainer
 import com.github.syedahmedjamil.pushernotif.BaseApplication
+import com.github.syedahmedjamil.pushernotif.ImageLoader
 import com.github.syedahmedjamil.pushernotif.core.Result
-import com.github.syedahmedjamil.pushernotif.domain.ImageLoader
 import com.github.syedahmedjamil.pushernotif.domain.NotificationEntity
 import com.github.syedahmedjamil.pushernotif.framework.MyPusherMessagingService
-import com.github.syedahmedjamil.pushernotif.shared_test.fakes.FakeImageLoader
 import com.github.syedahmedjamil.pushernotif.shared_test.fakes.usecase.FakeAddNotificationUseCase
 import com.github.syedahmedjamil.pushernotif.usecases.AddNotificationUseCase
 import com.google.firebase.messaging.RemoteMessage

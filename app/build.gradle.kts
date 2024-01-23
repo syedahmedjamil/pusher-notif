@@ -59,8 +59,8 @@ android {
                 "proguard-rules.pro"
             )
             resValue("string", "app_name", "Pusher Notif (${suffix})")
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             isDebuggable = false
             versionNameSuffix = "-${suffix}"
             signingConfig = signingConfigs.getByName("release")
@@ -133,6 +133,8 @@ android {
         implementation("com.google.firebase:firebase-iid:21.1.0") // for pusher
         implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
         implementation("com.google.firebase:firebase-messaging")
+        implementation("com.google.firebase:firebase-crashlytics")
+        implementation("com.google.firebase:firebase-analytics")
         implementation("com.pusher:push-notifications-android:1.9.2")
         implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
         implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")

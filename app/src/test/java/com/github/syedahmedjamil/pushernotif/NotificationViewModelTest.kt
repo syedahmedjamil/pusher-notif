@@ -1,15 +1,19 @@
 package com.github.syedahmedjamil.pushernotif
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.github.syedahmedjamil.pushernotif.core.Result
 import com.github.syedahmedjamil.pushernotif.domain.NotificationEntity
+import com.github.syedahmedjamil.pushernotif.shared_test.fakes.usecase.FakeDeleteNotificationsUseCase
 import com.github.syedahmedjamil.pushernotif.shared_test.fakes.usecase.FakeGetNotificationUseCase
 import com.github.syedahmedjamil.pushernotif.ui.notification.NotificationViewModel
+import com.github.syedahmedjamil.pushernotif.usecases.DeleteNotificationsUseCase
 import com.github.syedahmedjamil.pushernotif.usecases.GetNotificationsUseCase
 import com.github.syedahmedjamil.pushernotif.util.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
@@ -20,6 +24,7 @@ import org.junit.Test
 class NotificationViewModelTest {
     private lateinit var viewModel: NotificationViewModel
     private lateinit var getNotificationsUseCase: GetNotificationsUseCase
+    private lateinit var deleteNotificationsUseCase: DeleteNotificationsUseCase
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -30,9 +35,11 @@ class NotificationViewModelTest {
     @Before
     fun setUp() {
         getNotificationsUseCase = FakeGetNotificationUseCase()
+        deleteNotificationsUseCase = FakeDeleteNotificationsUseCase()
         viewModel =
             NotificationViewModel(
-                getNotificationsUseCase
+                getNotificationsUseCase,
+                deleteNotificationsUseCase
             )
     }
 
@@ -94,5 +101,31 @@ class NotificationViewModelTest {
         val actual = viewModel.openLinkEvent.value?.getValueIfNotHandled()
         // then
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should delete notifications`() = runTest {
+        // given
+        val useCase = ( deleteNotificationsUseCase as FakeDeleteNotificationsUseCase)
+        useCase.isError = false
+        // when
+        viewModel.deleteNotifications()
+        advanceUntilIdle()
+        val result = useCase.result
+        // then
+        assertTrue(result is Result.Success)
+    }
+
+    @Test
+    fun `should return error when notification is not removed`() = runTest {
+        // given
+        val useCase = ( deleteNotificationsUseCase as FakeDeleteNotificationsUseCase)
+        useCase.isError = true
+        // when
+        viewModel.deleteNotifications()
+        advanceUntilIdle()
+        val result = useCase.result
+        // then
+        assertTrue(result is Result.Error)
     }
 }

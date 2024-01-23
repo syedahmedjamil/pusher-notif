@@ -4,8 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -32,12 +36,14 @@ class NotificationFragment : Fragment() {
             interests = it.getStringArrayList("interests")!!
             instanceId = it.getString("instanceId").toString()
         }
+        setHasOptionsMenu(true)
         appContainer = (requireContext().applicationContext as BaseApplication).appContainer
 
         //manual DI
         viewModel = ViewModelProvider(
             this, NotificationViewModel.NotificationViewModelFactory(
                 appContainer.getNotificationsUseCase,
+                appContainer.deleteNotificationsUseCase
             )
         )[NotificationViewModel::class.java]
     }
@@ -49,7 +55,6 @@ class NotificationFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_notification, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupEvents()
@@ -107,5 +112,29 @@ class NotificationFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_delete -> {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Hold On !")
+                    .setMessage("Are you sure you want to delete all notifications?")
+                    .setPositiveButton("Cancel") { _, _ ->
+                    }
+                    .setNegativeButton("Yes") { _, _ ->
+                        viewModel.deleteNotifications()
+                    }.show()
+                true
+            }
+
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
     }
 }

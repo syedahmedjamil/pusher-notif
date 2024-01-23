@@ -86,4 +86,13 @@ class NotificationRepositoryTest {
         // then
         Assert.assertTrue((dataSource as FakeNotificationLocalDataSource).isAddNotificationCalled)
     }
+
+    @Test
+    fun `should delete notifications`() = runTest {
+        // given
+        // when
+        repository.deleteNotifications()
+        // then
+        Assert.assertTrue((dataSource as FakeNotificationLocalDataSource).isDeleteNotificationsCalled)
+    }
 }

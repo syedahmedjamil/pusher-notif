@@ -16,4 +16,8 @@ class NotificationRepositoryImpl @Inject constructor(private val notificationDat
     override suspend fun addNotification(notification: NotificationEntity) {
         notificationDataSource.addNotification(notification)
     }
+
+    override suspend fun deleteNotifications() {
+        notificationDataSource.deleteNotifications()
+    }
 }
