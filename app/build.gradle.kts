@@ -24,7 +24,7 @@ android {
         minSdk = 24
         targetSdk = 33
         versionCode = project.property("versionCode").toString().toInt()
-        versionName = "1.3.1"
+        versionName = "1.4.0"
         testApplicationId = "com.github.syedahmedjamil.pushernotif.test"
 //        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 //        testInstrumentationRunner = "io.cucumber.android.runner.CucumberAndroidJUnitRunner"
