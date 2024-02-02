@@ -5,6 +5,7 @@ on:
     paths-ignore:
       - '.github/**'
       - 'README.md'
+      - 'extras/**'
     branches: [ "dev" ]
     
   workflow_dispatch:    
@@ -26,25 +27,6 @@ jobs:
         uses: ./.github/actions/setup-jdk-gradle
         with:
           cache-read-only: false
-          
-      - name: AVD cache
-        uses: actions/cache@v3
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-29
-
-      - name: create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
-          script: echo "Generated AVD snapshot for caching."
           
       - name: Get Google Services Json
         env:
@@ -78,15 +60,6 @@ jobs:
         uses: ./.github/actions/setup-jdk-gradle
         with:
           cache-read-only: true
-          
-      - name: AVD cache
-        uses: actions/cache/restore@v3
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-29
 
       - name: Get Google Services Json
         env:
@@ -126,15 +99,6 @@ jobs:
         uses: ./.github/actions/setup-jdk-gradle
         with:
           cache-read-only: true
-          
-      - name: AVD cache
-        uses: actions/cache/restore@v3
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-29
 
       - name: Get Google Services Json
         env:
