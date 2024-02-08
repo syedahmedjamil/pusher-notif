@@ -27,7 +27,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/job_card"
+        android:id="@+id/notification_card"
         style="?attr/materialCardViewElevatedStyle"
         app:cardCornerRadius="8dp"
         android:layout_width="match_parent"
@@ -42,21 +42,21 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/job_title"
+                android:id="@+id/notification_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/job_icon"
+                app:layout_constraintEnd_toStartOf="@+id/notification_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="@{title}"
                 tools:text="Title" />
 
             <ImageView
-                android:id="@+id/job_icon"
+                android:id="@+id/notification_icon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="16dp"
@@ -65,18 +65,18 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
-                android:id="@+id/job_date"
+                android:id="@+id/notification_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/job_title"
+                app:layout_constraintTop_toBottomOf="@+id/notification_title"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="@{date}"
                 tools:text="01/01/0001" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/toolbar_subtitle"
+                android:id="@+id/notification_subtext"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -87,7 +87,7 @@
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/job_date"/>
+                app:layout_constraintTop_toBottomOf="@+id/notification_date"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>
