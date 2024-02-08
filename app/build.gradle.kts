@@ -24,11 +24,12 @@ android {
         minSdk = 24
         targetSdk = 33
         versionCode = project.property("versionCode").toString().toInt()
-        versionName = "1.4.0"
+        versionName = "1.4.1"
         testApplicationId = "com.github.syedahmedjamil.pushernotif.test"
 //        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 //        testInstrumentationRunner = "io.cucumber.android.runner.CucumberAndroidJUnitRunner"
         testInstrumentationRunner = "com.github.syedahmedjamil.pushernotif.test.CustomRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
         //apk file name
         setProperty("archivesBaseName", "${rootProject.name}-${versionName}-${versionCode}")
     }
@@ -51,6 +52,13 @@ android {
             isDebuggable = true
             applicationIdSuffix = ".${suffix}"
             versionNameSuffix = "-${suffix}"
+
+            firebaseAppDistribution {
+                serviceCredentialsFile = keystoreProperties["serviceCredentialsFile"] as String
+                artifactType = "APK"
+                releaseNotesFile = keystoreProperties["releaseNotesFile"] as String
+                testersFile = keystoreProperties["testersFile"] as String
+            }
         }
         release {
             val suffix = "release"
@@ -99,6 +107,7 @@ android {
                 useLegacyPackaging = true
             }
         }
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
     }
 
     kapt {
@@ -164,6 +173,9 @@ android {
         androidTestImplementation("io.cucumber:cucumber-android-hilt:7.14.0")
         androidTestImplementation("io.mockk:mockk-android:1.13.9")
         androidTestImplementation("androidx.fragment:fragment-testing:1.6.2") // for DataBindingIdlingResource
+        androidTestImplementation("androidx.test.uiautomator:uiautomator:2.2.0")
+        androidTestImplementation("androidx.test:runner:1.5.2")
+        androidTestUtil("androidx.test:orchestrator:1.4.2")
     }
 
 }

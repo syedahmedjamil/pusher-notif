@@ -3,7 +3,6 @@ package com.github.syedahmedjamil.pushernotif.test.acceptance
 import android.content.Intent
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.IdlingRegistry
 import com.github.syedahmedjamil.pushernotif.test.ActivityScenarioHolder
@@ -19,7 +18,6 @@ import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -31,7 +29,6 @@ class Steps(
 
     @Inject
     lateinit var dataStore: DataStore<Preferences>
-
 
     private val dataBindingIdlingResource = DataBindingIdlingResource()
 
@@ -52,58 +49,79 @@ class Steps(
     fun tearDown() {
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
         IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
-        runBlocking {
-            dataStore.edit {
-                it.clear()
-            }
-        }
+//        runBlocking {
+//            dataStore.edit {
+//                it.clear()
+//            }
+//        }
     }
 
 
     @Given("I am on the {string} screen")
     fun iAmOnThePage(arg0: String) {
-        dsl.instance.assertScreenTitle(arg0)
+        dsl.ui.assertScreenTitle(arg0)
     }
 
     @When("I add {string} as an interest")
     fun iAddAsAnInterest(arg0: String) {
-        dsl.instance.addInterest(arg0)
+        dsl.ui.instance.addInterest(arg0)
     }
 
     @Then("I should see {string} as an interest")
     fun iShouldSeeAsAnInterest(arg0: String) {
-        dsl.instance.assertInterestListed(arg0)
+        dsl.ui.instance.assertInterestListed(arg0)
     }
 
     @Then("I should see message {string}")
     fun iShouldSeeMessage(arg0: String) {
-        dsl.instance.assertMessage(arg0)
+        dsl.ui.assertSnackBarMessage(arg0)
     }
 
     @When("I remove {string} as an interest")
     fun iRemoveAsAnInterest(arg0: String) {
-        dsl.instance.removeInterest(arg0)
+        dsl.ui.instance.removeInterest(arg0)
     }
 
     @And("I should not see {string} as an interest")
     fun iShouldNotSeeAsAnInterest(arg0: String) {
-        dsl.instance.assertInterestNotListed(arg0)
+        dsl.ui.instance.assertInterestNotListed(arg0)
     }
 
     @Given("I set {string} as instance id")
     fun iSetAsInstanceId(arg0: String) {
-        dsl.instance.setInstanceId(arg0)
+        dsl.ui.instance.setInstanceId(arg0)
     }
 
     @When("I try to subscribe")
     fun iTryToSubscribe() {
-        dsl.instance.subscribe()
+        dsl.ui.instance.subscribe()
 
     }
 
     @Given("Internet connection is turned {string}")
     fun internetConnectionIsTurned(arg0: String) {
-        dsl.instance.setInternetConnection(arg0)
+        dsl.system.setInternetConnection(arg0)
     }
 
+    @When("I receive push notification")
+    fun iReceivePushNotification() {
+        dsl.system.sendPushNotification()
+    }
+
+    @Then("I should see notification in the list")
+    fun iShouldSeeNotificationInTheList() {
+        dsl.ui.notification.assertNotificationListed()
+    }
+
+    @Given("I am subscribed to instance")
+    fun iAmSubscribedToInstance() {
+        dsl.ui.instance.setInstanceId("00000000-0000-0000-0000-000000000000")
+        dsl.ui.instance.addInterest("test")
+        dsl.ui.instance.subscribe()
+    }
+
+    @Then("I should see notification in status bar")
+    fun iShouldSeeNotificationInStatusBar() {
+        dsl.system.assertNotificationListed();
+    }
 }
