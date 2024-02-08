@@ -17,8 +17,7 @@ class AppContainerTest {
 
     @Test
     fun test_appContainer_is_not_null() {
-        // Assert.assertNotNull(appContainer)
-        Assert.assertNotNull(null)
+        Assert.assertNotNull(appContainer)
     }
 
     @Test
