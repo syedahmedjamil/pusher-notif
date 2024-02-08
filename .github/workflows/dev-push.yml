@@ -84,7 +84,7 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          script: ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.cucumberUseAndroidJUnitRunner=true mergeAndroidReports
+          script: ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.cucumberUseAndroidJUnitRunner=true mergeAndroidReports --continue
       
       - name: Upload Integration Test Report
         if: always()
@@ -124,7 +124,7 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          script: ./gradlew connectedAndroidTest mergeAndroidReports
+          script: ./gradlew connectedAndroidTest mergeAndroidReports --continue
 
       - name: Upload Acceptance Test Report
         if: always()
