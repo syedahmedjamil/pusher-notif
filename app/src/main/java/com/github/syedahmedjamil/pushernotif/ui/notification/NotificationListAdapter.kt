@@ -38,7 +38,7 @@ class NotificationListAdapter(
         binding.date = item?.date
         binding.subtext= item?.subText
         binding.link= item?.link
-        binding.jobIcon.setImageBitmap(toBitmap(item?.image))
+        binding.notificationIcon.setImageBitmap(toBitmap(item?.image))
         return binding.root
     }
 

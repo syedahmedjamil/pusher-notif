@@ -31,6 +31,14 @@ class MyPusherMessagingService : MessagingService() {
     private lateinit var addNotificationUseCase: AddNotificationUseCase
     private lateinit var imageLoader: ImageLoader
 
+    private lateinit var title: String
+    private lateinit var body: String
+    private lateinit var subText: String
+    private lateinit var date: String
+    private lateinit var link: String
+    private lateinit var image: String
+    private lateinit var interest: String
+
     override fun onCreate() {
         appContainer = (applicationContext as BaseApplication).appContainer
         addNotificationUseCase = appContainer.addNotificationUseCase
@@ -38,14 +46,19 @@ class MyPusherMessagingService : MessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        try {
+            title = remoteMessage.data["title"]!!
+            body = remoteMessage.data["body"]!!
+            subText = remoteMessage.data["subtext"]!!
+            date = remoteMessage.data["date"]!!
+            link = remoteMessage.data["link"]!!
+            image = remoteMessage.data["image"]!!
+            interest = remoteMessage.data["interest"]!!
+        }
+        catch (e: Exception) {
+            return
+        }
 
-        val title = remoteMessage.data["title"]!!
-        val body = remoteMessage.data["body"]!!
-        val subText = remoteMessage.data["subtext"]!!
-        val date = remoteMessage.data["date"]!!
-        val link = remoteMessage.data["link"]!!
-        val image = remoteMessage.data["image"]!!
-        val interest = remoteMessage.data["interest"]!!
 
         val base64Image = imageLoader.getBase64(image)
 
