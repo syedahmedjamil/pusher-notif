@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
   
 jobs:
-  upload:
-    runs-on: macos-latest
+  upload-signed-release-firebase-app-distribution:
+    runs-on: ubuntu-latest
     
     steps:
       - name: Checkout

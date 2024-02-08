@@ -3,9 +3,10 @@ Android client app that integrates with pusher beams to show realtime in-app not
 
 Project contains:
 - Code structured using `Clean Architecture`
-- Acceptance tests written using `Cucumber` `Espresso` 
+- Acceptance tests written using `Cucumber` `Espresso` `UiAutomator2` `Appium`
 - Integreation and unit tests written using `JUnit`
 - Continous Integration using `Github Actions`
+- App Distribution using `Firebase App Distribution`
 - Dependecy Injection using `Hilt`
 - Manual Dependecy Injection using custom `App Container`
 - Testing using fakes and mocks using `Mockk`

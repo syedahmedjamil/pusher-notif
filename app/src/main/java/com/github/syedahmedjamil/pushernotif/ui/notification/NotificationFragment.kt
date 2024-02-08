@@ -73,12 +73,12 @@ class NotificationFragment : Fragment() {
 
     private fun setUpTabs() {
         for (interest in interests) {
-            binding.tabLayout.addTab(
-                binding.tabLayout.newTab().setText(interest)
+            binding.notificationTabLayout.addTab(
+                binding.notificationTabLayout.newTab().setText(interest)
             )
         }
 
-        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.notificationTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 loadNotifications()
@@ -95,8 +95,8 @@ class NotificationFragment : Fragment() {
     }
 
     private fun loadNotifications() {
-        val position = binding.tabLayout.selectedTabPosition
-        val selectedInterest = binding.tabLayout.getTabAt(position)?.text.toString()
+        val position = binding.notificationTabLayout.selectedTabPosition
+        val selectedInterest = binding.notificationTabLayout.getTabAt(position)?.text.toString()
         viewModel.selectInterest(selectedInterest)
 
     }
