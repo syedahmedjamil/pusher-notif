@@ -126,7 +126,6 @@ class NotificationViewModelTest {
         advanceUntilIdle()
         val result = useCase.result
         // then
-        // assertTrue(result is Result.Error)
-        assertTrue(false)
+        assertTrue(result is Result.Error)
     }
 }
