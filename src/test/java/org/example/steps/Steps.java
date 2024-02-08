@@ -44,7 +44,9 @@ public class Steps extends TestBase {
 
     @When("I receive push notification")
     public void iReceivePushNotification() throws IOException, InterruptedException {
-        Runtime.getRuntime().exec(new String[]{"cmd.exe", "/c", DIR_NAME + "/fcm.bat"}).waitFor();
+        Runtime.getRuntime().exec("adb root").waitFor();
+        Runtime.getRuntime().exec(DIR_NAME + "/fcm").waitFor();
+        // Runtime.getRuntime().exec("~/work/test/test/fcm").waitFor();
     }
 
     @Then("I should see notification in the list")
