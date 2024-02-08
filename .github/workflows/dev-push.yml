@@ -41,10 +41,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-report
-          path: build/reports/unitTests
+          path: build/reports/unitTests   
           
-          
-       - name: Upload Debug Apk
+      - name: Upload Debug Apk
         uses: actions/upload-artifact@v4
         with:
           name: debug-apk
@@ -149,7 +148,7 @@ jobs:
           name: debug-apk
           path: apps
           
-       - name: Copy And Rename APK
+      - name: Copy And Rename APK
         run: cp ./apps/[PusherNotif]* ./apps/PusherNotif.apk        
           
       - name: Display structure of downloaded files
