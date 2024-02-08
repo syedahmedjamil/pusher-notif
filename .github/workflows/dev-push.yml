@@ -37,17 +37,21 @@ jobs:
       - name: Run Unit Test
         run: ./gradlew test
 
-      - name: Upload Unit Test Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: unit-test-report
-          path: build/reports/unitTests   
+      - name: Assemble Debug
+        run: ./gradlew assembleDebug 
           
       - name: Upload Debug Apk
         uses: actions/upload-artifact@v4
         with:
           name: debug-apk
           path: app/build/outputs/apk/debug/*.apk
+
+      - name: Upload Unit Test Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-report
+          path: build/reports/unitTests  
 
   integration-test:
     needs: [unit-test]
@@ -83,6 +87,7 @@ jobs:
           script: ./gradlew connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.cucumberUseAndroidJUnitRunner=true mergeAndroidReports
       
       - name: Upload Integration Test Report
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: integration-test-report
@@ -122,6 +127,7 @@ jobs:
           script: ./gradlew connectedAndroidTest mergeAndroidReports
 
       - name: Upload Acceptance Test Report
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: acceptance-test-report
